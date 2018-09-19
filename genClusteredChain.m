@@ -16,7 +16,5 @@ function P = genClusteredChain(sizes, p, q)
   rowsums = sum(P, 2) * ones(1, n);
   P = P ./ rowsums;
   % Make sure rows actually sum to 1
-  diff = ones(n, 1) - sum(P, 2);
-  % Add diff to last col of P (should be on the order of machine precision)
-  P(:, n) = P(:, n) + diff;
+  P = correct(P);
 end
