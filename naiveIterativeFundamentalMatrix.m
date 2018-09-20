@@ -1,5 +1,5 @@
 % Compute the fundamental matrix of a regular Markov chain iteratively
-function Z = iterativeFundamentalMatrix(P, N)
+function Z = naiveIterativeFundamentalMatrix(P, N)
   pi = iterativeStationaryDistr(P, N);
   n = size(P, 1);
   A = ones(n, 1) * pi';
