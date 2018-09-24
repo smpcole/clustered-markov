@@ -1,14 +1,24 @@
 % sizes - a row vector of integers representing the sizes of the clusters
-% P - an n x n matrix whose (i, j)th entry is drawn uniformly at random from [0, p] if
-% i and j are in the same cluster, [0, q] else, then normalized to make it stochastic
-function P = genClusteredChain(sizes, p, q)
+% P - an n x n matrix whose (i, j)th entry is sample from distribution intra if
+% i and j are in the same cluster, and drom distribution inter otherwise,
+% then normalized to make it stochastic
+% intra, inter - handles to functions which take (m, n) as parameters and return a m x n
+% matrix of samples from a certain distribution
+function P = genClusteredChain(sizes, intra, inter)
+  if isnumeric(intra)
+    intra = unif(0, intra);
+  end
+  if isnumeric(inter)
+    inter = unif(0, inter);
+  end
+
   n = sum(sizes);
   k = length(sizes);
-  P = q * rand(n, n);;
+  P = inter(n, n);
   m = 1;
   for s = sizes
     M = m + s - 1;
-    P(m:M, m:M) = p * rand(s, s);
+    P(m:M, m:M) = intra(s, s);
     m = m + s;
   end
 
