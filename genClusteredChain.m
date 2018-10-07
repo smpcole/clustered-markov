@@ -14,7 +14,7 @@ function P = genClusteredChain(sizes, intra, inter)
 
   n = sum(sizes);
   k = length(sizes);
-  P = inter(n, n);
+  P = double(inter(n, n));
   m = 1;
   for s = sizes
     M = m + s - 1;
