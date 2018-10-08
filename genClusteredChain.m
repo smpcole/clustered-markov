@@ -22,9 +22,5 @@ function P = genClusteredChain(sizes, intra, inter)
     m = m + s;
   end
 
-  % Normalize row sums
-  rowsums = sum(P, 2) * ones(1, n);
-  P = P ./ rowsums;
-  % Make sure rows actually sum to 1
-  P = correct(P);
+  P = normalize(P);
 end
