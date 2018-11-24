@@ -6,10 +6,10 @@
 % matrix of samples from a certain distribution
 function P = genClusteredChain(sizes, intra, inter)
   if isnumeric(intra)
-    intra = unif(0, intra);
+    intra = unif(intra, intra);
   end
   if isnumeric(inter)
-    inter = unif(0, inter);
+    inter = unif(inter, inter);
   end
 
   n = sum(sizes);
