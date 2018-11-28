@@ -2,7 +2,7 @@
 % Start with k disjoint s-cliques
 % Designate a vertex in each clique
 % Connect all the designated vertices, forming a k-clique
-function P = cliquePartitionWalk(s, k)
+function P = pointedBlockChain(s, k)
   n = s * k;
   E = zeros(s);
   E(1, 1) = 1;
