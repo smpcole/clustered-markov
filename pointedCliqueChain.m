@@ -8,7 +8,7 @@
 % one point in another clique, with exactly one edge between points in any pair of cliques;
 % thus, the points form a perfect matching on k(k - 1) vertices.
 %
-function P = pointedBlockChain(s, k, type)
+function P = pointedCliqueChain(s, k, type)
   n = s * k;
 
   if type == 1
