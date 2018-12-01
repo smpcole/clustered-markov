@@ -13,9 +13,9 @@ Y = np.genfromtxt(csvpath, delimiter = ',')
 if Y.ndim == 1:
     Y.shape = (1, Y.shape[0])
 
-x = np.arange(1, Y.shape[1] + 1)
+x = Y[0, :]
 
-for i in range(Y.shape[0]):
+for i in range(1, Y.shape[0]):
     plt.plot(x, Y[i])
 
 plt.savefig(outpath)
