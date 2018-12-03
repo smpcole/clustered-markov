@@ -4,7 +4,7 @@ function Y = testIterativeMfp(sizes, intra, inter, N, outpath)
 
   indices = randomIndices(sizes);
 
-  Y = iterativeMfpIndices(P, N, indices);
+  Y = [1 : N; iterativeMfpIndices(P, N, indices)];
 
   csvwrite(outpath, Y);
 
