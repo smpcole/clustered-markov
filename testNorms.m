@@ -4,12 +4,13 @@ function results = testNorms(nmin, nmax, nstep, repetitions, distr, makestochast
   sizes = nmin : nstep : nmax;
 
   i = 1;
-  results = zeros(3, length(sizes))
+  results = zeros(5, length(sizes))
   results(1, :) = sizes;
   
   for n = sizes
-    avgl2 = 0;
-    avgfrob = 0;
+
+    svals = zeros(4, 1);
+    
     for t = 1 : repetitions
       P = distr(n, n);;
       if makestochastic
@@ -17,15 +18,12 @@ function results = testNorms(nmin, nmax, nstep, repetitions, distr, makestochast
       else
 	P = P / n;
       end
-      avgl2 = avgl2 + norm(P);
-      avgfrob = avgfrob + norm(P, 'fro');
+      s = svd(P);
+      results(2:end, i) = results(2:end, i) + [norm(s); s([1, 2, n])];
+
     end
 
-    avgl2 = avgl2 / repetitions;
-    avgfrob = avgfrob / repetitions;
-
-    results(2, i) = avgl2;
-    results(3, i) = avgfrob;
+    results(2:end, i) = results(2:end, i) / repetitions;
     
     i = i + 1;
     
