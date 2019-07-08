@@ -73,7 +73,7 @@ def rowTerm(pairs):
     if (row, row) in pairs:
         d = beta[0]
         rem = sum(beta) - d
-        for i in range(d):
+        for i in range(d + 1):
             coeff = Subsets(d, i).cardinality() * (-1)^(rem + i)
             beta[0] = i
             factor += dirichMoment(beta) * coeff
