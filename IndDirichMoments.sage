@@ -1,16 +1,15 @@
 def QQTFrobSq2ndMoment():
-    n = var('n')
     indices = ('i','i1', 'j', 'j1', 'k', 'k1', 'l', 'l1')
     pairs = (['i', 'k'], ['j', 'k'], ['i', 'l'], ['j', 'l'], ['i1', 'k1'], ['j1', 'k1'], ['i1', 'l1'], ['j1', 'l1'])
     partitions = SetPartitions(indices)
     sumofterms = 0
     for P in partitions:
 
-        sumofterms += computeTerm(P, pairs, n) * numTerms(P, n)
+        sumofterms += computeTerm(P, pairs) * numTerms(P)
         
     return sumofterms
 
-def computeTerm(partition, pairs, n):
+def computeTerm(partition, pairs):
     term = 1
     P = partition
 
@@ -50,11 +49,11 @@ def computeTerm(partition, pairs, n):
         distpairsbyrow[row][pair] += 1
 
     for row in distpairsbyrow:
-        term *= rowTerm(distpairsbyrow[row], n)
+        term *= rowTerm(distpairsbyrow[row])
 
     return term
 
-def rowTerm(pairs, n):
+def rowTerm(pairs):
     beta = []
     
     row = None
@@ -76,21 +75,21 @@ def rowTerm(pairs, n):
         for i in range(d):
             coeff = Subsets(d, i).cardinality() * (-1)^(rem + i)
             beta[0] = i
-            factor += dirichMoment(beta, n) * coeff
+            factor += dirichMoment(beta) * coeff
 
     else:
         coeff = (-1)^sum(beta)
-        factor = dirichMoment(beta, n) * coeff
+        factor = dirichMoment(beta) * coeff
 
     return factor
 
-def numTerms(partition, n):
+def numTerms(partition, n = var('n')):
     prod = 1
     for i in range(len(partition)):
         prod *= (n - i)
     return prod
 
-def dirichMoment(beta, n):
+def dirichMoment(beta, n = var('n')):
     d = sum(beta)
     denom = 1
     for i in range(d):
