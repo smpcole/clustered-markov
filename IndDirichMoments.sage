@@ -16,6 +16,21 @@ def QFrob4thMoment():
     pairs = (('i', 'j'), ('i', 'j'), ('i1', 'j1'), ('i1', 'j1'))
     return QFrobMoment(indices, pairs)
 
+def QQTFrobQFrob2ndMoment():
+    indices = ('i', 'i1', 'j', 'j1', 'k', 'l')
+    pairs = (('i', 'k'), ('j', 'k'), ('i', 'l'), ('j', 'l'), ('i1', 'j1'), ('i1', 'j1'))
+    return QFrobMoment(indices, pairs)
+
+def QQTFrob2ndMoment():
+    indices = ('i', 'j', 'k', 'l')
+    pairs = (('i', 'k'), ('j', 'k'), ('i', 'l'), ('j', 'l'))
+    return QFrobMoment(indices, pairs)
+
+def QFrob2ndMoment():
+    indices = ('i', 'j')
+    pairs = (('i', 'j'), ('i', 'j'))
+    return QFrobMoment(indices, pairs)
+
 def computeTerm(partition, pairs):
     term = 1
     P = partition
