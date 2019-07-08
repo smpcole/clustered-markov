@@ -1,4 +1,4 @@
-def QQTFrobSq2ndMoment():
+def QQTFrob4thMoment():
     indices = ('i','i1', 'j', 'j1', 'k', 'k1', 'l', 'l1')
     pairs = (['i', 'k'], ['j', 'k'], ['i', 'l'], ['j', 'l'], ['i1', 'k1'], ['j1', 'k1'], ['i1', 'l1'], ['j1', 'l1'])
     partitions = SetPartitions(indices)
