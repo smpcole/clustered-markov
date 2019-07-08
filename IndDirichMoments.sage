@@ -1,4 +1,4 @@
-def QFrobSqVariance():
+def QFrobSq2ndMoment():
     n = var('n')
     indices = ('i','i1', 'j', 'j1', 'k', 'k1', 'l', 'l1')
     partitions = SetPartitions(indices)
