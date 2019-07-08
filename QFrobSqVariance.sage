@@ -1,5 +1,3 @@
-load('dirich_moments.sage')
-
 def QFrobSqVariance():
     n = var('n')
     indices = ('i','i1', 'j', 'j1', 'k', 'k1', 'l', 'l1')
@@ -60,12 +58,12 @@ def QFrobSqVariance():
                 for i in range(d):
                     coeff = Subsets(d, i).cardinality() * (-1)^(rem + i)
                     beta[0] = i
-                    factor += dirich_moment(beta, n) * coeff
+                    factor += dirichMoment(beta, n) * coeff
 
                 term *= factor
             else:
                 coeff = (-1)^sum(beta)
-                term *= dirich_moment(beta, n) * coeff
+                term *= dirichMoment(beta, n) * coeff
 
         print(term)
         input("PRESS ENTER TO CONTINUE...\n")
@@ -78,3 +76,13 @@ def numTerms(partition, n):
     for i in range(len(partition)):
         prod *= (n - i)
     return prod
+
+def dirichMoment(beta, n):
+    d = sum(beta)
+    denom = 1
+    for i in range(d):
+        denom *= (n + i);
+    num = 1
+    for b in beta:
+        num *= sage.all.factorial(b)
+    return num / denom
