@@ -11,6 +11,11 @@ def QFrobMoment(indices, pairs):
 
     return sumofterms
 
+def QFrob4thMoment():
+    indices = ('i','i1', 'j', 'j1')
+    pairs = (('i', 'j'), ('i', 'j'), ('i1', 'j1'), ('i1', 'j1'))
+    return QFrobMoment(indices, pairs)
+
 def computeTerm(partition, pairs):
     term = 1
     P = partition
