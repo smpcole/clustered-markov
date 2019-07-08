@@ -15,17 +15,16 @@ def computeTerm(partition, pairs):
 
     pairs = tuple(list(pair) for pair in pairs)
     
-    numparts = P.cardinality()
     partof = {}
-    for i in range(numparts):
-        for index in P[i]:
-            partof[index] = i
+    for part in P:
+        for index in part:
+            partof[index] = part
 
     for pair in pairs:
         rowpart = partof[pair[0]]
         colpart = partof[pair[1]]
-        reprow = min(P[rowpart])
-        repcol = min(P[colpart])
+        reprow = min(rowpart)
+        repcol = min(colpart)
         pair[0] = reprow
         pair[1] = repcol
 
