@@ -65,10 +65,6 @@ def QFrobSq2ndMoment():
                 coeff = (-1)^sum(beta)
                 term *= dirichMoment(beta, n) * coeff
 
-        print(term)
-        input("PRESS ENTER TO CONTINUE...\n")
-        sumofterms += term * numTerms(P, n)
-
     return sumofterms
                 
 def numTerms(partition, n):
