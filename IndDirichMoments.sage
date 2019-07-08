@@ -1,25 +1,26 @@
 def QQTFrobSq2ndMoment():
     n = var('n')
     indices = ('i','i1', 'j', 'j1', 'k', 'k1', 'l', 'l1')
+    pairs = (['i', 'k'], ['j', 'k'], ['i', 'l'], ['j', 'l'], ['i1', 'k1'], ['j1', 'k1'], ['i1', 'l1'], ['j1', 'l1'])
     partitions = SetPartitions(indices)
     sumofterms = 0
     for P in partitions:
 
-        sumofterms += computeTerm(P, n) * numTerms(P, n)
+        sumofterms += computeTerm(P, pairs, n) * numTerms(P, n)
         
     return sumofterms
 
-def computeTerm(partition, n):
+def computeTerm(partition, pairs, n):
     term = 1
     P = partition
+
+    pairs = tuple(list(pair) for pair in pairs)
     
     numparts = P.cardinality()
     partof = {}
     for i in range(numparts):
         for index in P[i]:
             partof[index] = i
-
-    pairs = (['i', 'k'], ['j', 'k'], ['i', 'l'], ['j', 'l'], ['i1', 'k1'], ['j1', 'k1'], ['i1', 'l1'], ['j1', 'l1'])
 
     for pair in pairs:
         rowpart = partof[pair[0]]
