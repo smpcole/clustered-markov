@@ -1,3 +1,11 @@
+def RExp():
+    return QQTFrob2ndMoment() - 2 * QFrob2ndMoment() + var('n') - 1
+
+def RVar():
+    E = QQTFrob2ndMoment()
+    F = QFrob2ndMoment()
+    return QQTFrob4thMoment() + 4 * QFrob4thMoment() - 4 * QQTFrobQFrob2ndMoment() - E^2 - 4 * F^2 + 4 * E * F
+
 def QQTFrob4thMoment():
     indices = ('i','i1', 'j', 'j1', 'k', 'k1', 'l', 'l1')
     pairs = (['i', 'k'], ['j', 'k'], ['i', 'l'], ['j', 'l'], ['i1', 'k1'], ['j1', 'k1'], ['i1', 'l1'], ['j1', 'l1'])
