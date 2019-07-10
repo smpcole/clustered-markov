@@ -1,10 +1,16 @@
-def RExp(n = var('n')):
-    return QFrobMoment(2, 0, n) - 2 * QFrobMoment(0, 2, n) + n - 1
+def RExp(numterms = Infinity, n = var('n')):
+    E = QFrobMoment(2, 0, n) - 2 * QFrobMoment(0, 2, n) + n - 1
+    if numterms < Infinity:
+        E = E.taylor(n, Infinity, numterms)
+    return E
 
-def RVar(n = var('n')):
+def RVar(numterms = Infinity, n = var('n')):
     E = QFrobMoment(2, 0, n)
     F = QFrobMoment(0, 2, n)
-    return QFrobMoment(4, 0, n) + 4 * QFrobMoment(0, 4, n) - 4 * QFrobMoment(2, 2, n) - E^2 - 4 * F^2 + 4 * E * F
+    V = QFrobMoment(4, 0, n) + 4 * QFrobMoment(0, 4, n) - 4 * QFrobMoment(2, 2, n) - E^2 - 4 * F^2 + 4 * E * F
+    if numterms < Infinity:
+        V = V.taylor(n, Infinity, numterms)
+    return V
 
 def QFrobMoment(QQTpwr, Qpwr, n = var('n')):
     indices = []
