@@ -1,43 +1,31 @@
 def RExp():
-    return QQTFrob2ndMoment() - 2 * QFrob2ndMoment() + var('n') - 1
+    return QFrobMoment(2, 0) - 2 * QFrobMoment(0, 2) + var('n') - 1
 
 def RVar():
-    E = QQTFrob2ndMoment()
-    F = QFrob2ndMoment()
-    return QQTFrob4thMoment() + 4 * QFrob4thMoment() - 4 * QQTFrobQFrob2ndMoment() - E^2 - 4 * F^2 + 4 * E * F
+    E = QFrobMoment(2, 0)
+    F = QFrobMoment(0, 2)
+    return QFrobMoment(4, 0) + 4 * QFrobMoment(0, 4) - 4 * QFrobMoment(2, 2) - E^2 - 4 * F^2 + 4 * E * F
 
-def QQTFrob4thMoment():
-    indices = ('i','i1', 'j', 'j1', 'k', 'k1', 'l', 'l1')
-    pairs = (['i', 'k'], ['j', 'k'], ['i', 'l'], ['j', 'l'], ['i1', 'k1'], ['j1', 'k1'], ['i1', 'l1'], ['j1', 'l1'])
-    return QFrobMoment(indices, pairs)
+def QFrobMoment(QQTpwr, Qpwr):
+    indices = []
+    pairs = []
+    for i in range(QQTpwr / 2):
+        for index in ('i', 'j', 'k', 'l'):
+            indices.append(index + str(i))
+        for rowindex in ('i', 'j'):
+            for colindex in ('k', 'l'):
+                pairs.append((rowindex + str(i), colindex + str(i)))
+    for i in range(Qpwr / 2):
+        pair = ('u' + str(i), 'v' + str(i))
+        indices.extend(pair)
+        pairs.extend((pair, pair))
 
-def QFrobMoment(indices, pairs):
     partitions = SetPartitions(indices)
     sumofterms = 0
     for P in partitions:
         sumofterms += computeTerm(P, pairs) * numTerms(P)
 
     return sumofterms
-
-def QFrob4thMoment():
-    indices = ('i','i1', 'j', 'j1')
-    pairs = (('i', 'j'), ('i', 'j'), ('i1', 'j1'), ('i1', 'j1'))
-    return QFrobMoment(indices, pairs)
-
-def QQTFrobQFrob2ndMoment():
-    indices = ('i', 'i1', 'j', 'j1', 'k', 'l')
-    pairs = (('i', 'k'), ('j', 'k'), ('i', 'l'), ('j', 'l'), ('i1', 'j1'), ('i1', 'j1'))
-    return QFrobMoment(indices, pairs)
-
-def QQTFrob2ndMoment():
-    indices = ('i', 'j', 'k', 'l')
-    pairs = (('i', 'k'), ('j', 'k'), ('i', 'l'), ('j', 'l'))
-    return QFrobMoment(indices, pairs)
-
-def QFrob2ndMoment():
-    indices = ('i', 'j')
-    pairs = (('i', 'j'), ('i', 'j'))
-    return QFrobMoment(indices, pairs)
 
 def computeTerm(partition, pairs):
     term = 1
