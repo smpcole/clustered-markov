@@ -1,12 +1,12 @@
-def RExp():
-    return QFrobMoment(2, 0) - 2 * QFrobMoment(0, 2) + var('n') - 1
+def RExp(n = var('n')):
+    return QFrobMoment(2, 0, n) - 2 * QFrobMoment(0, 2, n) + n - 1
 
-def RVar():
-    E = QFrobMoment(2, 0)
-    F = QFrobMoment(0, 2)
-    return QFrobMoment(4, 0) + 4 * QFrobMoment(0, 4) - 4 * QFrobMoment(2, 2) - E^2 - 4 * F^2 + 4 * E * F
+def RVar(n = var('n')):
+    E = QFrobMoment(2, 0, n)
+    F = QFrobMoment(0, 2, n)
+    return QFrobMoment(4, 0, n) + 4 * QFrobMoment(0, 4, n) - 4 * QFrobMoment(2, 2, n) - E^2 - 4 * F^2 + 4 * E * F
 
-def QFrobMoment(QQTpwr, Qpwr):
+def QFrobMoment(QQTpwr, Qpwr, n = var('n')):
     indices = []
     pairs = []
     for i in range(QQTpwr / 2):
@@ -23,11 +23,11 @@ def QFrobMoment(QQTpwr, Qpwr):
     partitions = SetPartitions(indices)
     sumofterms = 0
     for P in partitions:
-        sumofterms += computeTerm(P, pairs) * numTerms(P)
+        sumofterms += computeTerm(P, pairs, n) * numTerms(P, n)
 
     return sumofterms
 
-def computeTerm(partition, pairs):
+def computeTerm(partition, pairs, n = var('n')):
     term = 1
     P = partition
 
@@ -66,11 +66,11 @@ def computeTerm(partition, pairs):
         distpairsbyrow[row][pair] += 1
 
     for row in distpairsbyrow:
-        term *= rowTerm(distpairsbyrow[row])
+        term *= rowTerm(distpairsbyrow[row], n)
 
     return term
 
-def rowTerm(pairs):
+def rowTerm(pairs, n = var('n')):
     beta = []
     
     row = None
@@ -92,11 +92,11 @@ def rowTerm(pairs):
         for i in range(d + 1):
             coeff = Subsets(d, i).cardinality() * (-1)^(rem + i)
             beta[0] = i
-            factor += dirichMoment(beta) * coeff
+            factor += dirichMoment(beta, n) * coeff
 
     else:
         coeff = (-1)^sum(beta)
-        factor = dirichMoment(beta) * coeff
+        factor = dirichMoment(beta, n) * coeff
 
     return factor
 
