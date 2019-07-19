@@ -76,7 +76,7 @@ def computeTerm(partition, pairs, n = var('n')):
 
     return term
 
-def rowTerm(pairs, n = var('n')):
+def rowTerm(pairs, n = var('n'), matrix = 'Q'):
     beta = []
     
     row = None
@@ -92,7 +92,7 @@ def rowTerm(pairs, n = var('n')):
             beta.append(pairs[pair])
 
     factor = 0    
-    if (row, row) in pairs:
+    if matrix == 'Q' and (row, row) in pairs:
         d = beta[0]
         rem = sum(beta) - d
         for i in range(d + 1):
@@ -102,7 +102,9 @@ def rowTerm(pairs, n = var('n')):
 
     else:
         coeff = (-1)^sum(beta)
-        factor = dirichMoment(beta, n) * coeff
+        factor = dirichMoment(beta, n)
+        if matrix == 'Q':
+            factor *= coeff
 
     return factor
 
