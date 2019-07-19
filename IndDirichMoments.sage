@@ -13,15 +13,18 @@ def RVar(numterms = Infinity, n = var('n')):
     return V
 
 def QFrobMoment(QQTpwr, Qpwr, n = var('n')):
+    return FrobMoment(QQTpwr, Qpwr, 'Q', n)
+
+def FrobMoment(MMTpwr, Mpwr, M = 'Q', n = var('n')):
     indices = []
     pairs = []
-    for i in range(QQTpwr / 2):
+    for i in range(MMTpwr / 2):
         for index in ('i', 'j', 'k', 'l'):
             indices.append(index + str(i))
         for rowindex in ('i', 'j'):
             for colindex in ('k', 'l'):
                 pairs.append((rowindex + str(i), colindex + str(i)))
-    for i in range(Qpwr / 2):
+    for i in range(Mpwr / 2):
         pair = ('u' + str(i), 'v' + str(i))
         indices.extend(pair)
         pairs.extend((pair, pair))
@@ -29,11 +32,11 @@ def QFrobMoment(QQTpwr, Qpwr, n = var('n')):
     partitions = SetPartitions(indices)
     sumofterms = 0
     for P in partitions:
-        sumofterms += computeTerm(P, pairs, n) * numTerms(P, n)
+        sumofterms += computeTerm(P, pairs, M, n) * numTerms(P, n)
 
     return sumofterms
 
-def computeTerm(partition, pairs, n = var('n')):
+def computeTerm(partition, pairs, matrix = 'Q', n = var('n')):
     term = 1
     P = partition
 
@@ -72,7 +75,7 @@ def computeTerm(partition, pairs, n = var('n')):
         distpairsbyrow[row][pair] += 1
 
     for row in distpairsbyrow:
-        term *= rowTerm(distpairsbyrow[row], n)
+        term *= rowTerm(distpairsbyrow[row], n, matrix)
 
     return term
 
