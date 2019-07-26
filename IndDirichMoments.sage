@@ -29,6 +29,10 @@ def FrobMoment(MMTpwr, Mpwr, M = 'Q', n = var('n')):
         indices.extend(pair)
         pairs.extend((pair, pair))
 
+    return expSumProd(indices, pairs, M, n)
+
+def expSumProd(indices, pairs, M = 'A', n = var('n')):
+    
     partitions = SetPartitions(indices)
     sumofterms = 0
     for P in partitions:
