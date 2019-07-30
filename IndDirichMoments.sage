@@ -12,6 +12,16 @@ def RVar(numterms = Infinity, n = var('n')):
         V = V.taylor(n, Infinity, numterms)
     return V
 
+def entrywise(p, k, M = 'A', n = var('n')):
+    """Expectation of ||M||_p^{pk}, where || ||_p denotes the entrywise p-norm"""
+    indices = ['i' + str(i) for i in range(k)]
+    indices.extend(('j' + str(j) for j in range(k)))
+    pairs = []
+    for i in range(k):
+        pairs.extend((('i' + str(i), 'j' + str(i)) for j in range(p)))
+
+    return expSumProd(indices, pairs, M, n)
+
 def QFrobMoment(QQTpwr, Qpwr, n = var('n')):
     return FrobMoment(QQTpwr, Qpwr, 'Q', n)
 
