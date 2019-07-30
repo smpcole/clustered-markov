@@ -5,15 +5,10 @@ function Y = testDirichKemeny(nmin, nmax, nstep, T)
   Y(1, :) = x;
   j = 1;
   for n = x
-    D = dirichlet(ones(1, n));
-    A = zeros(n, n);
+    D = dirichlet(ones(n, n));
     avgK = 0;
     for t = 1 : T
-      for i = 1 : n
-	A(i, :) = D()';
-      end
-      A = normalize(A);
-      avgK = avgK + kemeny1(A);
+      avgK = avgK + kemeny1(D());
     end
     avgK = avgK / T;
     Y(2, j) = avgK;

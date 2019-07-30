@@ -1,13 +1,16 @@
 function distr = dirichlet(alpha)
 
-  function y = sample()
-    K = length(alpha);
-    y = zeros(K, 1);
-    for i = 1 : K
-      y(i) = gamrnd(alpha(i), 1);
+  [m, n] = size(alpha);
+  function A = sample()
+    A = zeros(m, n);
+    for i = 1 : m
+      for j = 1 : n
+	A(i, j) = gamrnd(alpha(i), 1);
+      end
+      A(i, :) = A(i, :) / sum(A(i, :));
     end
 
-    y = y / sum(y);
+    A = normalize(A);
     
   end
 
