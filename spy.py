@@ -11,7 +11,7 @@ A = np.genfromtxt(csvpath, delimiter = ',')
 
 x, y = np.where(A) # Returns indices where A[i, j] != 0
 
-plt.scatter(x, y, marker = '.', color = 'blue')
+plt.scatter(x, y, marker = '.', color = 'blue', s = 1)
 
 plt.savefig(outpath)
 print("Output written to %s" % outpath)
