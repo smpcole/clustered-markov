@@ -27,8 +27,11 @@ if shade:
     perm = np.argsort(w)
     w, x, y = w[perm], x[perm], y[perm]
 
+    light = np.array([.75, .75, 1.0])
+    dark = np.array([0, 0, 1.0])
+    
     for i in range(numpts):
-        colors[i, 0 : 2] = 1 - w[i] / maxval
+        colors[i, : ] = w[i] * dark + (1 - w[i]) * light 
 
 plt.scatter(x, y, marker = '.', c = colors, s = 1, edgecolors = 'face')
 
