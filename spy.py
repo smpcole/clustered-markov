@@ -27,6 +27,9 @@ if shade:
     perm = np.argsort(w)
     w, x, y = w[perm], x[perm], y[perm]
 
+    minval = w[0]
+    w = w / maxval # Normalize so largest weight is 1
+
     light = np.array([.75, .75, 1.0])
     dark = np.array([0, 0, 1.0])
     
