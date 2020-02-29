@@ -19,8 +19,16 @@ colors = "blue"
 if shade:
     numpts = x.size
     colors = np.ones([numpts, 3])
+
+    # Order points by weight
+    w = np.zeros([numpts,])
     for i in range(numpts):
-        colors[i, 0 : 2] = 1 - A[x[i], y[i]] / maxval
+        w[i] = A[x[i], y[i]]
+    perm = np.argsort(w)
+    w, x, y = w[perm], x[perm], y[perm]
+
+    for i in range(numpts):
+        colors[i, 0 : 2] = 1 - w[i] / maxval
 
 plt.scatter(x, y, marker = '.', c = colors, s = 1, edgecolors = 'face')
 
