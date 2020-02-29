@@ -1,10 +1,16 @@
-function pltmatrix(A, outpath, remoteusr, remotedir, port)
+function pltmatrix(A, outpath, remoteusr, remotedir, port, shade)
 
   csvpath = sprintf('%d.csv', randi(10000));
 
   csvwrite(csvpath, A);
 
-  cmd = sprintf('python spy.py %s %s', csvpath, outpath);
+  if shade
+    shade = 'shade';
+  else
+    shade = '';
+  end
+  
+  cmd = sprintf('python spy.py %s %s %s', csvpath, outpath, shade);
 
   system(cmd);
 
