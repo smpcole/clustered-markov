@@ -30,7 +30,7 @@ if shade:
     minval = w[0]
     w = w / maxval # Normalize so largest weight is 1
 
-    light = np.array([.75, .75, 1.0])
+    light = np.array([.875, .875, 1.0])
     dark = np.array([0, 0, 1.0])
     
     for i in range(numpts):
