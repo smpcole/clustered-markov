@@ -1,5 +1,7 @@
 function Tperms = svdAlg(T, tol)
 
+  T = full(T);
+  
   Tperms = {};
 
   perms = svdAlgRec(T, 1, tol, 1 : size(T, 1));
