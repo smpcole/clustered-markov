@@ -14,6 +14,9 @@ end
 
 function perms = svdAlgRec(T, minindex, tol, perms)
 
+  maxrowsum = max(sum(T, 2));
+  T = T / maxrowsum;
+
   L = laplacian(T);
 
   [U, S, V] = svd(L);
