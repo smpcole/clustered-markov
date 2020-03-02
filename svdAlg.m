@@ -35,6 +35,10 @@ function perms = svdAlgRec(T, minindex, tol, perms)
     I = find(v >= 0);
     J = find(v < 0);
 
+    if length(I) == 0 || length(J) == 0
+      return;
+    end
+    
     P = [I; J];
 
     perm = 1 : size(perms, 2);
