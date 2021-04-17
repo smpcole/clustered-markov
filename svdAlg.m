@@ -16,11 +16,7 @@ end
 
 function perms = svdAlgRec(T, minindex, tol, perms)
 
-  maxrowsum = max(sum(T, 2));
-  if maxrowsum == 0
-    return;
-  end
-  T = T / maxrowsum;
+  T = dnf(T);
 
   L = laplacian(T);
 
