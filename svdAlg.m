@@ -26,10 +26,10 @@ function perms = svdAlgRec(T, minindex, tol, perms)
 
   if n > 1 && S(n - 1, n - 1) < tol
 
-    v = V(:, n - 1);
+    u = U(:, n - 1);
 
-    I = find(v >= 0);
-    J = find(v < 0);
+    I = find(u >= 0);
+    J = find(u < 0);
 
     if length(I) == 0 || length(J) == 0
       return;
