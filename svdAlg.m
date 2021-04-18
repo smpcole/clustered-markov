@@ -1,4 +1,4 @@
-function Tperms = svdAlg(T, tol)
+function [Tperms, perms] = svdAlg(T, tol)
 
   T = full(T);
   
