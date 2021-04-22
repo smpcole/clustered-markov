@@ -7,13 +7,12 @@ function P = correct(P)
   end
   [m, n] = size(P);
   for i = 1 : m
-    for j = 1 : n
+    
       diff = 1 - sum(P(i, 1 : n));
-      if ~diff
-	break
-      end
+
+      j = randi(1, n);
       P(i, j) = P(i, j) + diff;
-    end
+      
   end
   if isCol % If P was a column vector, convert it back to a column vector
     P = P';
