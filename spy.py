@@ -40,6 +40,10 @@ if shade:
     
     for i in range(numpts):
         colors[i, : ] = w[i] * dark + (1 - w[i]) * light 
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.set_aspect('equal')
         
 plt.scatter(x, y, marker = '.', c = colors, s = 1, edgecolors = 'face')
 
