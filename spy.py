@@ -10,11 +10,12 @@ outpath = sys.argv[2]
 shade =  len(sys.argv) > 3 and sys.argv[3] == 'shade'
 
 A = np.genfromtxt(csvpath, delimiter = ',')
+n = A.shape[1]
 
 minindices = None
 if len(sys.argv) > 4:
     minindices = np.genfromtxt(sys.argv[4], delimiter = ',')
-    minindices = np.append(minindices, A.shape[1] + 2)
+    minindices = np.append(minindices, n + 1)
 
 maxval = np.max(A)
 
@@ -53,5 +54,8 @@ if minindices is not None:
     plt.vlines(minindices[0:-1], minindices[0:-1], minindices[1:])
     plt.vlines(minindices[1:], minindices[0:-1], minindices[1:])
 
+plt.hlines((1, n + 1), (1, 1), (n + 1, n + 1));
+plt.vlines((1, n + 1), (1, 1), (n + 1, n + 1));
+    
 plt.savefig(outpath)
 print("Output written to %s" % outpath)
