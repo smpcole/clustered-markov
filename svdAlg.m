@@ -49,7 +49,7 @@ function [perms, minindices] = svdAlgRec(T, minindex, tol, perms)
 
     [perms, minindices] = svdAlgRec(T1, minindex, tol, perms);
     [perms, minindices2] = svdAlgRec(T2, minindex + size(T1, 1), tol, perms);
-    minindices = [minindices; minindices2];
+    minindices = [minindices, minindices2];
     
   end
 
