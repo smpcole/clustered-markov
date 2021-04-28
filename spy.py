@@ -45,8 +45,9 @@ if shade:
 fig = plt.figure()
 ax = fig.add_subplot(111)
 ax.set_aspect('equal')
+ax.invert_yaxis()
         
-plt.scatter(x, y, marker = '.', c = colors, s = 1, edgecolors = 'face')
+plt.scatter(y, x, marker = '.', c = colors, s = 1, edgecolors = 'face')
 
 if minindices is not None:
     plt.hlines(minindices[0:-1], minindices[0:-1], minindices[1:])
