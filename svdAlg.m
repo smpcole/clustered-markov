@@ -1,10 +1,10 @@
-function [Tperms, perms, minindices] = svdAlg(T, tol)
+function [Tperms, perms, minindices, u] = svdAlg(T, tol)
 
   T = full(T);
   
   Tperms = {};
 
-  [perms, minindices] = svdAlgRec(T, 1, tol, 1 : size(T, 1), {1});
+  [perms, minindices, u] = svdAlgRec(T, 1, tol, 1 : size(T, 1), {1}, {});
 
   numiter = size(perms, 1);
   Tperms{1} = T;
@@ -14,7 +14,7 @@ function [Tperms, perms, minindices] = svdAlg(T, tol)
   
 end
 
-function [perms, minindices] = svdAlgRec(T, minindex, tol, perms, minindices)
+function [perms, minindices, singvec] = svdAlgRec(T, minindex, tol, perms, minindices, singvec)
 
   T = dnf(T);
 
@@ -27,6 +27,7 @@ function [perms, minindices] = svdAlgRec(T, minindex, tol, perms, minindices)
   if n > 1 && S(n - 1, n - 1) < tol
 
     u = U(:, n - 1);
+    singvec{end + 1} = u;
 
     I = find(u >= 0);
     J = find(u < 0);
@@ -47,8 +48,8 @@ function [perms, minindices] = svdAlgRec(T, minindex, tol, perms, minindices)
 
     minindices{end + 1} = merge(minindices{end}, [minindex, minindex + size(T1, 1)]);
 
-    [perms, minindices] = svdAlgRec(T1, minindex, tol, perms, minindices);
-    [perms, minindices] = svdAlgRec(T2, minindex + size(T1, 1), tol, perms, minindices);
+    [perms, minindices, singvec] = svdAlgRec(T1, minindex, tol, perms, minindices, singvec);
+    [perms, minindices, singvec] = svdAlgRec(T2, minindex + size(T1, 1), tol, perms, minindices, singvec);
     
   end
 
