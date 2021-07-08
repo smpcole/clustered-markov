@@ -1,10 +1,10 @@
-function [Tperms, perms, minindices, posindices, negindices] = svdAlg(T, tol)
+function [Tperms, perms, minindices, w, posindices, negindices] = svdAlg(T, tol)
 
   T = full(T);
   
   Tperms = {};
 
-  [perms, minindices, posindices, negindices] = svdAlgRec(T, 1, tol, 1 : size(T, 1), {1}, {}, {});
+  [perms, minindices, posindices, negindices, w] = svdAlgRec(T, 1, tol, 1 : size(T, 1), {1}, {}, {}, {});
 
   numiter = size(perms, 1);
   Tperms{1} = T;
@@ -14,7 +14,7 @@ function [Tperms, perms, minindices, posindices, negindices] = svdAlg(T, tol)
   
 end
 
-function [perms, minindices, posindices, negindices] = svdAlgRec(T, minindex, tol, perms, minindices, posindices, negindices)
+function [perms, minindices, posindices, negindices, w] = svdAlgRec(T, minindex, tol, perms, minindices, posindices, negindices, w)
 
   T = dnf(T);
 
@@ -50,8 +50,16 @@ function [perms, minindices, posindices, negindices] = svdAlgRec(T, minindex, to
 
     minindices{end + 1} = merge(minindices{end}, [minindex, minindex + size(T1, 1)]);
 
-    [perms, minindices, posindices, negindices] = svdAlgRec(T1, minindex, tol, perms, minindices, posindices, negindices);
-    [perms, minindices, posindices, negindices] = svdAlgRec(T2, minindex + size(T1, 1), tol, perms, minindices, posindices, negindices);
+    u = abs(u(P));
+    if length(w) == 0
+      w = {u};
+    else
+      w{end + 1} = w{end};
+      w{end}(minindex : minindex + n - 1) = u;
+    end
+
+    [perms, minindices, posindices, negindices, w] = svdAlgRec(T1, minindex, tol, perms, minindices, posindices, negindices, w);
+    [perms, minindices, posindices, negindices, w] = svdAlgRec(T2, minindex + size(T1, 1), tol, perms, minindices, posindices, negindices, w);
     
   end
 
