@@ -56,6 +56,9 @@ if len(sys.argv) > 4:
         plt.vlines(minindices[1:], minindices[0:-1], minindices[1:])
 
     else:
+        print(minindices.shape)
+        if minindices.shape == (2,):
+            minindices.shape = (2, 1)
         plt.hlines(minindices[0][1:], 1, n + 1)
         plt.vlines(minindices[1][1:], 1, m + 1)
 
