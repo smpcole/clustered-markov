@@ -10,12 +10,7 @@ outpath = sys.argv[2]
 shade =  len(sys.argv) > 3 and sys.argv[3] == 'shade'
 
 A = np.genfromtxt(csvpath, delimiter = ',')
-n = A.shape[1]
-
-minindices = None
-if len(sys.argv) > 4:
-    minindices = np.genfromtxt(sys.argv[4], delimiter = ',')
-    minindices = np.append(minindices, n + 1)
+m, n = A.shape
 
 maxval = np.max(A)
 
@@ -49,14 +44,23 @@ ax.invert_yaxis()
         
 plt.scatter(y, x, marker = '.', c = colors, s = 1, edgecolors = 'face')
 
-if minindices is not None:
-    plt.hlines(minindices[0:-1], minindices[0:-1], minindices[1:])
-    plt.hlines(minindices[1:], minindices[0:-1], minindices[1:])
-    plt.vlines(minindices[0:-1], minindices[0:-1], minindices[1:])
-    plt.vlines(minindices[1:], minindices[0:-1], minindices[1:])
+if len(sys.argv) > 4:
+    minindices = np.genfromtxt(sys.argv[4], delimiter = ',')
 
-plt.hlines((1, n + 1), (1, 1), (n + 1, n + 1));
-plt.vlines((1, n + 1), (1, 1), (n + 1, n + 1));
+    if minindices.shape[0] == 1:
+        minindices = np.append(minindices, n + 1)
+
+        plt.hlines(minindices[0:-1], minindices[0:-1], minindices[1:])
+        plt.hlines(minindices[1:], minindices[0:-1], minindices[1:])
+        plt.vlines(minindices[0:-1], minindices[0:-1], minindices[1:])
+        plt.vlines(minindices[1:], minindices[0:-1], minindices[1:])
+
+    else:
+        plt.hlines(minindices[0][1:], 1, n + 1)
+        plt.vlines(minindices[1][1:], 1, m + 1)
+
+plt.hlines((1, m + 1), (1, 1), (n + 1, n + 1));
+plt.vlines((1, n + 1), (1, 1), (m + 1, m + 1));
     
 plt.savefig(outpath)
 print("Output written to %s" % outpath)
