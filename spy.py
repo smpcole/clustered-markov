@@ -47,20 +47,22 @@ plt.scatter(y, x, marker = '.', c = colors, s = 1, edgecolors = 'face')
 if len(sys.argv) > 4:
     minindices = np.genfromtxt(sys.argv[4], delimiter = ',')
 
-    if minindices.shape[0] == 1:
-        minindices = np.append(minindices, n + 1)
+    if minindices.ndim == 1 or minindices.shape[0] == 1: 
+        minindices = np.array((minindices, minindices))
 
-        plt.hlines(minindices[0:-1], minindices[0:-1], minindices[1:])
-        plt.hlines(minindices[1:], minindices[0:-1], minindices[1:])
-        plt.vlines(minindices[0:-1], minindices[0:-1], minindices[1:])
-        plt.vlines(minindices[1:], minindices[0:-1], minindices[1:])
+    if minindices.shape == (2,):
+        minindices.shape = (2, 1)
 
-    else:
-        print(minindices.shape)
-        if minindices.shape == (2,):
-            minindices.shape = (2, 1)
-        plt.hlines(minindices[0][1:], 1, n + 1)
-        plt.vlines(minindices[1][1:], 1, m + 1)
+    newcol = np.array((m + 1, n + 1))
+    newcol.shape = (2, 1)
+
+    minindices = np.hstack((minindices, newcol))
+        
+    plt.hlines(minindices[0][0:-1], minindices[1][0:-1], minindices[1][1:])
+    plt.hlines(minindices[0][1:], minindices[1][0:-1], minindices[1][1:])
+    plt.vlines(minindices[1][0:-1], minindices[0][0:-1], minindices[0][1:])
+    plt.vlines(minindices[1][1:], minindices[0][0:-1], minindices[0][1:])
+
 
 plt.hlines((1, m + 1), (1, 1), (n + 1, n + 1));
 plt.vlines((1, n + 1), (1, 1), (m + 1, m + 1));
