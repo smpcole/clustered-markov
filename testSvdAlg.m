@@ -1,4 +1,4 @@
-function results = testSvdAlg(sample, tol, numtrials)
+function results = testSvdAlg(sample, tol, origminindices, numtrials)
   
   results = {};
   results.distr = sample;
@@ -12,13 +12,15 @@ function results = testSvdAlg(sample, tol, numtrials)
   results.avgdiagW1 = [];
   results.mindiagWv = [];
   results.mindiagW1 = [];
+  results.recovered = [];
   
   for t = 1 : numtrials
     
     T = sample();
     n = size(T, 1);
     [Tperms, perms, minindices, w] = svdAlg(T, tol);
-
+    results.recovered(end + 1) = isRecovered(origminindices, perms, minindices{end});
+    
     results.numclusters(end + 1) = length(Tperms);
 
     results.weightvec{end + 1} = w;
@@ -41,6 +43,8 @@ function results = testSvdAlg(sample, tol, numtrials)
   results.avgavgdiagW1 = mean(results.avgdiagW1);
   results.avgmindiagWv = mean(results.mindiagWv);
   results.avgmindiagW1 = mean(results.mindiagW1);
+
+  results.proprecovered = sum(results.recovered) / length(results.recovered);
 
 end
 
