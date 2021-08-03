@@ -58,3 +58,35 @@ function ind = origIndices(perms, minindices)
     ind{i} = q(minindices(i) : minindices(i + 1) - 1);
   end
 end
+
+function recovered = isRecovered(origminindices, perms, minindices)
+  recovered = false;
+  k = length(minindices);
+  if k ~= length(origminindices)
+    return;
+  end
+  
+  clusters = origIndices(perms, minindices);
+
+  origminindices = [origminindices, size(perms, 2) + 1];
+  origclusters = {};
+  for i = 1 : k
+    origclusters{i} = origminindices(i) : origminindices(i + 1) - 1;
+    clusters{i} = sort(clusters{i});
+  end
+
+  % TODO: this can be done more efficiently
+  for i = 1 : k
+    clusterfound = false;
+    for j = 1 : k
+      if length(clusters{i}) == length(origclusters{j}) && all(clusters{i} == origclusters{j})
+	clusterfound = true;
+	break;
+      end
+    end
+    if ~clusterfound
+      return; % Return false
+    end
+  end
+  recovered = true; % if all clusters are found among original clusters
+end
