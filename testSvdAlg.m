@@ -43,3 +43,18 @@ function results = testSvdAlg(sample, tol, numtrials)
   results.avgmindiagW1 = mean(results.mindiagW1);
 
 end
+
+function ind = origIndices(perms, minindices)
+  % Compute final cumulative permutation - T(q, q) == Tperms{end}
+  q  = perms(1, :);
+  for i = 1 : size(perms, 1)
+    q = q(perms(i, :));
+  end
+  % Index q(i) of T -> Index i of Tperms{end}
+
+  minindices = [minindices, length(q) + 1];
+  ind = {};
+  for i = 1 : length(minindices) - 1
+    ind{i} = q(minindices(i) : minindices(i + 1) - 1);
+  end
+end
