@@ -13,6 +13,7 @@ function results = testSvdAlg(sample, tol, origminindices, numtrials)
   results.mindiagWv = [];
   results.mindiagW1 = [];
   results.recovered = [];
+  results.numerrors = [];
   
   for t = 1 : numtrials
     
@@ -29,7 +30,8 @@ function results = testSvdAlg(sample, tol, origminindices, numtrials)
     T = T(p, p);
     
     [Tperms, perms, minindices, w] = svdAlg(T, tol);
-    results.recovered(end + 1) = isRecovered(origclusters, perms, minindices{end});
+    results.numerrors(end + 1) = numerrors(origclusters, perms, minindices{end});
+    results.recovered(end + 1) = results.numerrors(end) == 0;
     
     results.numclusters(end + 1) = length(Tperms);
 
@@ -54,6 +56,7 @@ function results = testSvdAlg(sample, tol, origminindices, numtrials)
   results.avgmindiagWv = mean(results.mindiagWv);
   results.avgmindiagW1 = mean(results.mindiagW1);
 
+  results.avgnumerrors = sum(results.numerrors) / length(results.numerrors);
   results.proprecovered = sum(results.recovered) / length(results.recovered);
 
 end
@@ -73,32 +76,39 @@ function ind = origIndices(perms, minindices)
   end
 end
 
-function recovered = isRecovered(origclusters, perms, minindices)
-  recovered = false;
-  k = length(minindices);
-  if k ~= length(origclusters)
-    return;
+function y = numerrors(origclusters, perms, minindices)
+  clusters = origIndices(perms, minindices);
+  
+  k = max(length(origclusters), length(clusters));
+
+  % Append empty clusters to smaller set of clusters so that they both have same number of clusters
+  for i = length(origclusters) + 1 : k
+    origclusters{i} = [];
+  end
+  for i = length(clusters) + 1 : k
+    clusters{i} = [];
   end
   
-  clusters = origIndices(perms, minindices);
-
+  C = zeros(k, k);
   for i = 1 : k
-    origclusters{i} = sort(origclusters{i});
-    clusters{i} = sort(clusters{i});
-  end
-
-  % TODO: this can be done more efficiently
-  for i = 1 : k
-    clusterfound = false;
     for j = 1 : k
-      if length(clusters{i}) == length(origclusters{j}) && all(clusters{i} == origclusters{j})
-	clusterfound = true;
-	break;
-      end
-    end
-    if ~clusterfound
-      return; % Return false
+      C(i, j) = length(setxor(origclusters{i}, clusters{j}));
     end
   end
-  recovered = true; % if all clusters are found among original clusters
+
+  cvx_begin quiet;
+
+  variable X(k, k) nonnegative;
+
+  minimize trace(C' * X);
+
+  subject to
+
+  X * ones(k, 1) == 1;
+  ones(1, k) * X == 1;
+  
+  cvx_end;
+
+  y = round(cvx_optval / 2);
+  
 end
