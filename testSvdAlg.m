@@ -18,8 +18,18 @@ function results = testSvdAlg(sample, tol, origminindices, numtrials)
     
     T = sample();
     n = size(T, 1);
+
+    % Randomly permute indices
+    p = randperm(n);
+    origclusters = {};
+    for i = 1 : length(origminindices) - 1;
+      origclusters{i} = find(p >= origminindices(i) & p < origminindices(i + 1));
+    end
+    origclusters{end + 1} = find(p >= origminindices(end));
+    T = T(p, p);
+    
     [Tperms, perms, minindices, w] = svdAlg(T, tol);
-    results.recovered(end + 1) = isRecovered(origminindices, perms, minindices{end});
+    results.recovered(end + 1) = isRecovered(origclusters, perms, minindices{end});
     
     results.numclusters(end + 1) = length(Tperms);
 
@@ -63,19 +73,17 @@ function ind = origIndices(perms, minindices)
   end
 end
 
-function recovered = isRecovered(origminindices, perms, minindices)
+function recovered = isRecovered(origclusters, perms, minindices)
   recovered = false;
   k = length(minindices);
-  if k ~= length(origminindices)
+  if k ~= length(origclusters)
     return;
   end
   
   clusters = origIndices(perms, minindices);
 
-  origminindices = [origminindices, size(perms, 2) + 1];
-  origclusters = {};
   for i = 1 : k
-    origclusters{i} = origminindices(i) : origminindices(i + 1) - 1;
+    origclusters{i} = sort(origclusters{i});
     clusters{i} = sort(clusters{i});
   end
 
