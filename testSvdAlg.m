@@ -3,6 +3,7 @@ function results = testSvdAlg(sample, tol, origminindices, numtrials)
   results = {};
   results.distr = sample;
   results.tol = tol;
+  results.origminindices = origminindices;
   results.numtrials = numtrials;
   results.numclusters = [];
   results.weightvec = {};
