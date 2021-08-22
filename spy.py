@@ -47,7 +47,7 @@ plt.scatter(y, x, marker = '.', c = colors, s = 1, edgecolors = 'face')
 if len(sys.argv) > 4:
     minindices = np.genfromtxt(sys.argv[4], delimiter = ',')
 
-    if minindices.ndim == 1 or minindices.shape[0] == 1: 
+    if minindices.ndim <= 1 or minindices.shape[0] == 1: 
         minindices = np.array((minindices, minindices))
 
     if minindices.shape == (2,):
