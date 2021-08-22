@@ -15,6 +15,10 @@ function results = testSvdAlg(sample, tol, origminindices, numtrials)
   results.mindiagW1 = [];
   results.recovered = [];
   results.numerrors = [];
+  results.numerrorscorrectnumclusters = [];
+
+  minerrors = Inf;
+  maxerrors = -1;
   
   for t = 1 : numtrials
     
@@ -28,11 +32,24 @@ function results = testSvdAlg(sample, tol, origminindices, numtrials)
       origclusters{i} = find(p >= origminindices(i) & p < origminindices(i + 1));
     end
     origclusters{end + 1} = find(p >= origminindices(end));
+    Torig = T;
     T = T(p, p);
     
     [Tperms, perms, minindices, w] = svdAlg(T, tol);
     results.numerrors(end + 1) = numerrors(origclusters, perms, minindices{end});
+    if length(Tperms) == length(origminindices)
+      results.numerrorscorrectnumclusters(end + 1) = results.numerrors(end);
+    end
     results.recovered(end + 1) = results.numerrors(end) == 0;
+
+    if results.numerrors(end) > maxerrors
+      results.worst = Torig;
+      maxerrors = results.numerrors(end);
+    end
+    if results.numerrors(end) < minerrors
+      results.best = Torig;
+      minerrors = results.numerrors(end);
+    end
     
     results.numclusters(end + 1) = length(Tperms);
 
@@ -58,6 +75,7 @@ function results = testSvdAlg(sample, tol, origminindices, numtrials)
   results.avgmindiagW1 = mean(results.mindiagW1);
 
   results.avgnumerrors = sum(results.numerrors) / length(results.numerrors);
+  results.avgnumerrorscorrectnumclusters = sum(results.numerrorscorrectnumclusters) / length(results.numerrorscorrectnumclusters);
   results.proprecovered = sum(results.recovered) / length(results.recovered);
 
 end
