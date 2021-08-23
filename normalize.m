@@ -3,5 +3,5 @@ function Y = normalize(X)
   n = size(X, 2);
   rowsums = sum(X, 2) * ones(1, n);
   Y = X ./ rowsums;
-  Y = correct(Y);
+  %Y = correct(Y);
 end
