@@ -5,7 +5,7 @@ function w = weightVector(T, minindices)
   for i = 1 : length(minindices) - 1
     indices = minindices(i) : minindices(i + 1) - 1;
     m = length(indices);
-    [U, S, V] = svd(eye(1) - dnf(T(indices, indices)));
+    [U, S, V] = svd(eye(m) - dnf(T(indices, indices)));
     u = ones(m, 1);
     if m > 1
       u = U(:, m - 1);
